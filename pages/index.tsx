@@ -3,10 +3,17 @@ import Link from 'next/link';
 
 export default () => {
   return (
-    <div>
-      <Link href={'/smart-counter'}>
-        <a>smart counter</a>
-      </Link>
-    </div>
+    <ul>
+      <li>
+        <Link href={'/smart-counter'}>
+          <a>smart counter</a>
+        </Link>
+      </li>
+      <li>
+        <Link href={'/progress-bar'}>
+          <a>progress bar</a>
+        </Link>
+      </li>
+    </ul>
   );
 };
