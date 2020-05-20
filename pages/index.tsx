@@ -14,6 +14,11 @@ export default () => {
           <a>progress bar</a>
         </Link>
       </li>
+      <li>
+        <Link href={'/game-loop'}>
+          <a>game loop</a>
+        </Link>
+      </li>
     </ul>
   );
 };
