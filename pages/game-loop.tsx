@@ -1,16 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {of, animationFrameScheduler} from 'rxjs';
 import {filter, switchMap, pluck, map, takeWhile, scan, mapTo, startWith, tap, repeat} from 'rxjs/operators';
-import shuffle from 'lodash/shuffle';
 
-const getPositiveOrNegative = () => shuffle([-2, 0, 2])[0];
+const getRandomInt = (min: number, max: number) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
 export default () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const velocity = {
-    x: getPositiveOrNegative(),
-    y: getPositiveOrNegative(),
+    x: 4,
+    y: 2,
   };
   const world = {
     width: 500,
@@ -20,8 +23,17 @@ export default () => {
   const ball = {
     width: 10,
     height: 10,
-    x: Math.floor(world.width / 2),
-    y: Math.floor(world.height / 2),
+    x: 20,
+    y: 40,
+  };
+
+  const collision = () => {
+    if (ball.x >= world.width - ball.width || ball.x === 0) {
+      velocity.x *= -1;
+    }
+    if (ball.y >= world.height - ball.height || ball.y === 0) {
+      velocity.y *= -1;
+    }
   };
 
   const drawWorld = (ctx: CanvasRenderingContext2D) => {
@@ -32,14 +44,17 @@ export default () => {
   const drawBall = (ctx: CanvasRenderingContext2D) => {
     ball.x += velocity.x;
     ball.y += velocity.y;
+
     ctx.fillStyle = '#e74c3c';
     ctx.fillRect(ball.x, ball.y, ball.width, ball.height);
   };
 
   useEffect(() => {
+    const ctx = canvasRef.current.getContext('2d');
     const loop = of(animationFrameScheduler).pipe(
-      startWith(canvasRef.current.getContext('2d')),
+      startWith(ctx),
       tap((ctx: CanvasRenderingContext2D) => {
+        collision();
         drawWorld(ctx);
         drawBall(ctx);
       }),
