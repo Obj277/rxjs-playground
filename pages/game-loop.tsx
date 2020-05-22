@@ -1,12 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {of, animationFrameScheduler} from 'rxjs';
-import {filter, switchMap, pluck, map, takeWhile, scan, mapTo, startWith, tap, repeat} from 'rxjs/operators';
-
-const getRandomInt = (min: number, max: number) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+import {startWith, tap, repeat} from 'rxjs/operators';
 
 export default () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
