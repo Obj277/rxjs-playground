@@ -45,7 +45,7 @@ export default () => {
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext('2d');
-    const loop = of(animationFrameScheduler).pipe(
+    const loop$ = of(animationFrameScheduler).pipe(
       startWith(ctx),
       tap((ctx: CanvasRenderingContext2D) => {
         collision();
@@ -56,7 +56,7 @@ export default () => {
     ).subscribe();
 
     return () => {
-      loop.unsubscribe();
+      loop$.unsubscribe();
     };
   }, []);
 
